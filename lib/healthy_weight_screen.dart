@@ -10,11 +10,13 @@ class HealthyWeightScreen extends StatefulWidget {
 }
 
 class _HealthyWeightScreenState extends State<HealthyWeightScreen> {
-  double _heightOfUser = 40.0;
+  // double _heightOfUser = 40.0;
+
   double _transformedheight = 0;
   double lowest = 0, highest = 0;
 
   late WeightModel _weightModel;
+  TextEditingController _heightOfUser = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -56,27 +58,24 @@ class _HealthyWeightScreenState extends State<HealthyWeightScreen> {
               ),
               Container(
                 padding: EdgeInsets.only(left: 16, right: 16),
-                child: Slider(
-                  min: 40.0,
-                  max: 250.0,
-                  onChanged: (height) {
-                    setState(() {
-                      _heightOfUser = height;
-                    });
-                  },
-                  value: _heightOfUser,
-                  divisions: 100,
-                  activeColor: Colors.red,
-                  label: "$_heightOfUser",
+                child: TextFormField(
+                  controller: _heightOfUser,
                 ),
+                // child: Slider(
+                //   min: 40.0,
+                //   max: 250.0,
+                //   onChanged: (height) {
+                //     setState(() {
+                //       _heightOfUser = height;
+                //     });
+                //   },
+                //   value: _heightOfUser,
+                //   divisions: 100,
+                //   activeColor: Colors.red,
+                //   label: "$_heightOfUser",
+                // ),
               ),
-              Text(
-                "$_heightOfUser cm",
-                style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w900),
-              ),
+              // .5
               SizedBox(
                 height: 40,
               ),
@@ -88,7 +87,7 @@ class _HealthyWeightScreenState extends State<HealthyWeightScreen> {
                         MaterialStateProperty.all(TextStyle(fontSize: 20))),
                 onPressed: () {
                   setState(() {
-                    _transformedheight = _heightOfUser / 100;
+                    _transformedheight = (double.parse(_heightOfUser.text) / (100));
                     lowest = (_transformedheight * _transformedheight) * 18.5;
                     highest = (_transformedheight * _transformedheight) * 24.9;
 
@@ -102,8 +101,8 @@ class _HealthyWeightScreenState extends State<HealthyWeightScreen> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => ResultScreen(
-                            weightModel: _weightModel,
-                          )));
+                                weightModel: _weightModel,
+                              )));
                 },
                 child: Text(
                   'Calculate',
